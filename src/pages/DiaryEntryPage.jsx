@@ -14,7 +14,7 @@ import SelectBoringImage from "../images/Select_Boring.png";
 import InputForm from "../components/InputForm";
 import useTokenHandler from "../layout/Header/useTokenHandler";
 import "../styles/DiaryEntryPage.scss";
-import API from "../BaseUrl";
+
 import axios from "axios";
 
 const DiaryEntryPage = () => {
@@ -156,7 +156,7 @@ const DiaryEntryPage = () => {
   }, [missingDays]);
 
   return (
-    <div className="main-container" style={{ width: "1063px"}}>
+    <div className="main-container" style={{ width: "1063px" }}>
       <div className="title">
         <h1>WRITE AN EMOTIONAL DIARY</h1>
         <button className="submit-button" onClick={() => postDiary()}>
@@ -164,7 +164,11 @@ const DiaryEntryPage = () => {
         </button>
       </div>
       <div className="top-content">
-        <DateSelect currentDate={currentDate} setCurrentDate={setCurrentDate} includeDates={missingDays} />
+        <DateSelect
+          currentDate={currentDate}
+          setCurrentDate={setCurrentDate}
+          includeDates={missingDays}
+        />
         <div className="emotion">
           <label>오늘의 감정</label>
           <Emotion

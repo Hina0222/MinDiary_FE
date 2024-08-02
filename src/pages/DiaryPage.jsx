@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DiaryList from "../components/DiaryList";
-import useTokenHandler from '../layout/Header/useTokenHandler';
-import API from "../BaseUrl";
+import useTokenHandler from "../layout/Header/useTokenHandler";
+
 import axios from "axios";
 
 const DiaryPage = ({ setActiveComponent, setClickDay, setCurrentDate }) => {
@@ -50,19 +50,17 @@ const DiaryPage = ({ setActiveComponent, setClickDay, setCurrentDate }) => {
     const getAllDiaryDatas = async () => {
       try {
         checkToken();
-        const res = await axios.get('/api/v1/diary/all',
-          {
-            headers: {
-              Authorization: `${localStorage.getItem("accessToken")}`,
-            },
-          }
-        );
+        const res = await axios.get("/api/v1/diary/all", {
+          headers: {
+            Authorization: `${localStorage.getItem("accessToken")}`,
+          },
+        });
         // console.log(res.data);
         setDummy(res.data);
       } catch (err) {
         console.log(err);
       }
-    }
+    };
     getAllDiaryDatas();
   }, []);
 
@@ -78,6 +76,6 @@ const DiaryPage = ({ setActiveComponent, setClickDay, setCurrentDate }) => {
       />
     </div>
   );
-}
+};
 
 export default DiaryPage;

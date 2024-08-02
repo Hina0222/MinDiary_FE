@@ -3,10 +3,17 @@ import Calendar from "../components/Calendar";
 import DiaryInfo from "../components/DiaryInfo";
 import DiarySummaryList from "../components/DiarySummaryList";
 import useTokenHandler from "../layout/Header/useTokenHandler";
-import API from "../BaseUrl";
+
 import axios from "axios";
 
-const CalendarPage = ({ currentDate, setEventBool, setCurrentDate, setClickDay, clickDay, eventBool }) => {
+const CalendarPage = ({
+  currentDate,
+  setEventBool,
+  setCurrentDate,
+  setClickDay,
+  clickDay,
+  eventBool,
+}) => {
   const { checkToken } = useTokenHandler();
 
   const [dummy, setDummy] = useState([
@@ -42,29 +49,27 @@ const CalendarPage = ({ currentDate, setEventBool, setCurrentDate, setClickDay, 
     // },
   ]);
 
-  // 한달치 일기 불러오기 
+  // 한달치 일기 불러오기
   useEffect(() => {
     const getDiaryDatas = async () => {
       try {
         checkToken();
-        const res = await axios.get(`/api/v1/diary/month`,
-          {
-            params: {
-              year: currentDate.getFullYear(),
-              month: currentDate.getMonth() + 1
-            },
-            headers: {
-              Authorization: `${localStorage.getItem("accessToken")}`,
-            },
-          }
-        );
+        const res = await axios.get(`/api/v1/diary/month`, {
+          params: {
+            year: currentDate.getFullYear(),
+            month: currentDate.getMonth() + 1,
+          },
+          headers: {
+            Authorization: `${localStorage.getItem("accessToken")}`,
+          },
+        });
         setDummy(res.data);
         // console.log(res.data);
       } catch (err) {
         console.log(err);
       }
-    }
-    getDiaryDatas()
+    };
+    getDiaryDatas();
   }, [currentDate.getMonth()]);
 
   const getYearMonthDay = useCallback((date) => {
@@ -124,6 +129,6 @@ const CalendarPage = ({ currentDate, setEventBool, setCurrentDate, setClickDay, 
       </div>
     </div>
   );
-}
+};
 
 export default CalendarPage;

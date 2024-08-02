@@ -13,8 +13,8 @@ import notion from "./notion.png";
 import battery_low from "./battery-low.png";
 import entypo from "./entypo.png";
 import arrow from "./arrow.png";
-import right_bottom_square from "./오른쪽밑에뚫린사각형.png";
-import right_top_square from "./오른쪽위에뚫린사각형.png";
+import right_bottom_square from "./right_bottom_square.png";
+import right_top_square from "./right_top_square.png";
 import emoji from "./emoji.png";
 import arrow2 from "./arrow2.png";
 const Home = () => {

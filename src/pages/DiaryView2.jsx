@@ -10,7 +10,7 @@ import DiaryPage from "./DiaryPage";
 import AnalyzePage from "./AnalyzePage";
 import DiaryEntryPage from "./DiaryEntryPage";
 import useTokenHandler from "../layout/Header/useTokenHandler";
-import API from "../BaseUrl";
+
 import axios from "axios";
 const CalendarView = () => {
   const { checkToken } = useTokenHandler();

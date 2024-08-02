@@ -6,8 +6,10 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 const GoogleLoginButton = ({ onLoginSuccess }) => {
+  const REACT_APP_GOOGLE_AUTH_CLIENT_ID =
+    "64914608678-347k5m0ag08q2sqpu504b2j9b0n0eapr.apps.googleusercontent.com";
   const navigate = useNavigate();
-  const clientId = process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID;
+  const clientId = REACT_APP_GOOGLE_AUTH_CLIENT_ID;
   console.log(clientId);
 
   const handle_user_authentication = async (user_info) => {

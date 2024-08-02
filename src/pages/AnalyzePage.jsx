@@ -9,7 +9,7 @@ import SurprisedImage from "../images/Surprised.png";
 import BoringImage from "../images/Boring.png";
 import useTokenHandler from "../layout/Header/useTokenHandler";
 import "../styles/AnalyzePage.scss";
-import API from "../BaseUrl";
+
 import { sr } from "date-fns/locale";
 import axios from "axios";
 
