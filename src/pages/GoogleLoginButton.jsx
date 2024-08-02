@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import API from "../BaseUrl";
+
 import axios from "axios";
 
 const GoogleLoginButton = ({ onLoginSuccess }) => {
@@ -16,8 +16,9 @@ const GoogleLoginButton = ({ onLoginSuccess }) => {
         loginId: user_info.sub,
         name: user_info.name,
       });
+      //
       // http://15.165.116.155:8080/api/v1/account/login
-      // console.log("response", response);
+      console.log("response", response);
       const accessToken = response.headers.authorization;
       const refreshToken = response.headers.refreshtoken;
 

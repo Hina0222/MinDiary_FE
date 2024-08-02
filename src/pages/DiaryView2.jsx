@@ -33,7 +33,6 @@ const CalendarView = () => {
       // console.log("자료형", typeof year);
       checkToken();
       const config = {};
-
       try {
         const response = await axios.get("/api/v1/diary/month", {
           headers: {
