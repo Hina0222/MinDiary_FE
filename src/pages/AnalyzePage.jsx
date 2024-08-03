@@ -18,42 +18,42 @@ const AnalyzePage = () => {
   // 받아올 일기 정보들
   const [diaryDatas, setDiaryDatas] = useState([]);
   const [thisweekData, setThisweekData] = useState([
-  //   {
-  //   id: "Happy",
-  //   label: "기쁨",
-  //   src: HappyImage,
-  //   value: 20,
-  //   color: "#FFE75C",
-  // },
-  // {
-  //   id: "Sad",
-  //   label: "슬픔",
-  //   src: SadImage,
-  //   value: 30,
-  //   color: "#3293D7",
-  // },
-  // {
-  //   id: "Angry",
-  //   label: "분노",
-  //   src: AngryImage,
-  //   value: 50,
-  //   color: "#FF6262",
-  // },
-  // {
-  //   id: "Surprised",
-  //   label: "놀람",
-  //   src: SurprisedImage,
-  //   value: 10,
-  //   color: "#FEBB00",
-  // },
-  // {
-  //   id: "Boring",
-  //   label: "중립",
-  //   src: BoringImage,
-  //   value: 5,
-  //   color: "#C6C6C6",
-  // },
-]);
+    //   {
+    //   id: "Happy",
+    //   label: "기쁨",
+    //   src: HappyImage,
+    //   value: 20,
+    //   color: "#FFE75C",
+    // },
+    // {
+    //   id: "Sad",
+    //   label: "슬픔",
+    //   src: SadImage,
+    //   value: 30,
+    //   color: "#3293D7",
+    // },
+    // {
+    //   id: "Angry",
+    //   label: "분노",
+    //   src: AngryImage,
+    //   value: 50,
+    //   color: "#FF6262",
+    // },
+    // {
+    //   id: "Surprised",
+    //   label: "놀람",
+    //   src: SurprisedImage,
+    //   value: 10,
+    //   color: "#FEBB00",
+    // },
+    // {
+    //   id: "Boring",
+    //   label: "중립",
+    //   src: BoringImage,
+    //   value: 5,
+    //   color: "#C6C6C6",
+    // },
+  ]);
 
   // 지난 주 감정 데이터(더미)
   const [lastweekData, setLastweekData] = useState([]);
@@ -61,6 +61,24 @@ const AnalyzePage = () => {
   // 감정 피드백 데이터
   const [feedbackData, setFeedbackData] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  const getYearMonthDay_server = useCallback((date) => {
+    const today = new Date(date); // 원래 날짜 객체를 복사하여 변경 사항이 원본에 영향을 주지 않도록 함
+    const dayOfWeek = today.getDay();
+
+    if (dayOfWeek !== 6) {
+      const diff = 6 - dayOfWeek;
+      today.setDate(today.getDate() + diff);
+    }
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    console.log(`${year}-${month}-${day}`);
+
+    return `${year}-${month}-${day}`;
+  }, []);
 
   const getYearMonthDay = useCallback((date) => {
     const year = date.getFullYear();
@@ -73,7 +91,7 @@ const AnalyzePage = () => {
     const accessToken = localStorage.getItem("accessToken");
     checkToken();
     try {
-      const date = getYearMonthDay(currentDate);
+      const date = getYearMonthDay_server(currentDate);
       // console.log(date);
       const res = await axios.get(`/api/v1/weekly-emotion`, {
         headers: {
@@ -201,8 +219,8 @@ const AnalyzePage = () => {
       <h1>EMOTION ANALYSIS</h1>
       <div className="analysis-container">
         <div className="chart-container">
-            <Chart data={thisweekData} isThisWeek={true} />
-            <Chart data={lastweekData} isThisWeek={false} />
+          <Chart data={thisweekData} isThisWeek={true} />
+          <Chart data={lastweekData} isThisWeek={false} />
         </div>
         <div className="weekly-container">
           <div className="weekly-calendar-container">
