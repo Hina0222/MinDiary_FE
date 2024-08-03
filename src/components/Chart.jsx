@@ -8,16 +8,24 @@ const Chart = ({ data, isThisWeek }) => {
     label: `${item.label} ${item.value}%`,
   }));
 
+  const checkValue = (data) => {
+    return data.every((item) => item.value === 0);
+  };
+
+
   return (
-      <div className="chart">
-        {isThisWeek ? (
-          <div className="chart-title">THIS WEEK</div>
-        ) : (
-          <div className="chart-title">LAST WEEK</div>
-        )}
+    <div className="chart">
+      {isThisWeek ? (
+        <div className="chart-title">THIS WEEK</div>
+      ) : (
+        <div className="chart-title">LAST WEEK</div>
+      )}
+      {checkValue(data) ? (
+        <div className="no-content">이번주에 작성한 일기가 없습니다.</div>
+      ) : (
         <ResponsivePie
           data={data}
-          margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+          margin={{ top: 40, right: 80, bottom: 80, left: 20 }}
           innerRadius={0.6}
           activeOuterRadiusOffset={8}
           arcLinkLabelsSkipAngle={360} // 모든 링크 레이블 숨기기
@@ -27,12 +35,13 @@ const Chart = ({ data, isThisWeek }) => {
             {
               data: formattedData,
               anchor: "right",
+              position: "bottom",
               direction: "column",
               justify: false,
-              translateX: 56,
+              translateX: 90,
               translateY: 0,
               itemsSpacing: 20,
-              itemWidth: 100,
+              itemWidth: 80,
               itemHeight: 18,
               itemTextColor: "#2353B5",
               itemDirection: "left-to-right",
@@ -51,7 +60,8 @@ const Chart = ({ data, isThisWeek }) => {
             },
           ]}
         />
-      </div>
+      )}
+    </div>
   );
 };
 

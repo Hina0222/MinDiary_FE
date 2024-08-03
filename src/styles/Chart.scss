@@ -2,12 +2,13 @@ $title-color: #2353B5;
 
 .chart-container {
   width: 646px;
-  height: 386px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 20px;
+  box-sizing: border-box;
 }
 
 .chart-title {
@@ -18,7 +19,7 @@ $title-color: #2353B5;
 
 .chart {
   width: 100%;
-  height: 100%;
+  height: 50%;
   background: #ffffff;
   border-radius: 32px;
   padding: 20px;

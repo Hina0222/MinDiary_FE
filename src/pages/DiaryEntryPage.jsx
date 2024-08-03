@@ -147,12 +147,12 @@ const DiaryEntryPage = () => {
   }, []);
 
   useEffect(() => {
-    if (missingDays.length > 0) {
-      const todayFormatted = formatDate(new Date());
-      if (!missingDays.includes(todayFormatted)) {
-        setCurrentDate(new Date(missingDays[missingDays.length - 1]));
-      }
-    }
+    // if (missingDays.length > 0) {
+    //   const todayFormatted = formatDate(new Date());
+    //   if (!missingDays.includes(todayFormatted)) {
+    //     setCurrentDate(new Date(missingDays[missingDays.length - 1]));
+    //   }
+    // }
   }, [missingDays]);
 
   return (

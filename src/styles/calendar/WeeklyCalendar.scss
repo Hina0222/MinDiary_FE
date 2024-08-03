@@ -5,6 +5,7 @@
   text-align: center;
   padding: 40px;
   border-radius: 32px;
+  box-sizing: border-box;
   margin-top: 26px;
   width: 828px;
   height: 100%;
@@ -18,7 +19,9 @@
     padding: 0px 32px;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    // gap: 20px;
+
+    box-sizing: border-box;
 
     img {
       cursor: pointer;

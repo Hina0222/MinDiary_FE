@@ -22,7 +22,7 @@
     "sass": "^1.77.7",
     "web-vitals": "^2.1.0"
   },
-  "proxy": "https://15.165.116.155:8080/",
+  "proxy": "http://15.165.116.155:8080/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

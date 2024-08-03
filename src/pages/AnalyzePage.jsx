@@ -9,7 +9,7 @@ import SurprisedImage from "../images/Surprised.png";
 import BoringImage from "../images/Boring.png";
 import useTokenHandler from "../layout/Header/useTokenHandler";
 import "../styles/AnalyzePage.scss";
-
+import API from "../BaseUrl";
 import { sr } from "date-fns/locale";
 import axios from "axios";
 
@@ -17,7 +17,43 @@ const AnalyzePage = () => {
   const { checkToken, config } = useTokenHandler();
   // 받아올 일기 정보들
   const [diaryDatas, setDiaryDatas] = useState([]);
-  const [thisweekData, setThisweekData] = useState([]);
+  const [thisweekData, setThisweekData] = useState([
+  //   {
+  //   id: "Happy",
+  //   label: "기쁨",
+  //   src: HappyImage,
+  //   value: 20,
+  //   color: "#FFE75C",
+  // },
+  // {
+  //   id: "Sad",
+  //   label: "슬픔",
+  //   src: SadImage,
+  //   value: 30,
+  //   color: "#3293D7",
+  // },
+  // {
+  //   id: "Angry",
+  //   label: "분노",
+  //   src: AngryImage,
+  //   value: 50,
+  //   color: "#FF6262",
+  // },
+  // {
+  //   id: "Surprised",
+  //   label: "놀람",
+  //   src: SurprisedImage,
+  //   value: 10,
+  //   color: "#FEBB00",
+  // },
+  // {
+  //   id: "Boring",
+  //   label: "중립",
+  //   src: BoringImage,
+  //   value: 5,
+  //   color: "#C6C6C6",
+  // },
+]);
 
   // 지난 주 감정 데이터(더미)
   const [lastweekData, setLastweekData] = useState([]);
@@ -25,7 +61,6 @@ const AnalyzePage = () => {
   // 감정 피드백 데이터
   const [feedbackData, setFeedbackData] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [clickDay, setClickDay] = useState(false);
 
   const getYearMonthDay = useCallback((date) => {
     const year = date.getFullYear();
@@ -45,7 +80,7 @@ const AnalyzePage = () => {
           Authorization: `${accessToken}`,
         },
         params: {
-          endDate: new Date("2024-08-03"),
+          endDate: date,
         },
       });
       // console.log(res);
@@ -143,28 +178,15 @@ const AnalyzePage = () => {
         },
       });
       setDiaryDatas(res.data);
+      console.log(currentDate);
       // console.log(res.data);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const checkValue = (data) => {
-    return data.every((item) => item.value === 0);
-  };
-
   useEffect(() => {
-    if (
-      (currentDate.getDay === 6 &&
-        diaryDatas.some(
-          (diary) => diary.diaryAt === currentDate.toISOString().split("T")[0]
-        )) ||
-      currentDate.getDay === 7
-    ) {
-      getFeedbackData();
-    } else {
-      setFeedbackData("이번주 주간 피드백 데이터가 아직 준비되지 않았아요!");
-    }
+    getFeedbackData();
     getDiaryDatas();
   }, [currentDate]);
 
@@ -179,20 +201,8 @@ const AnalyzePage = () => {
       <h1>EMOTION ANALYSIS</h1>
       <div className="analysis-container">
         <div className="chart-container">
-          {checkValue(thisweekData) ? (
-            <div className="chart-container">
-              <div className="no-content">이번주에 작성한 일기가 없습니다.</div>
-            </div>
-          ) : (
             <Chart data={thisweekData} isThisWeek={true} />
-          )}
-          {checkValue(lastweekData) ? (
-            <div className="chart-container">
-              <div className="no-content">지난주에 작성한 일기가 없습니다.</div>
-            </div>
-          ) : (
             <Chart data={lastweekData} isThisWeek={false} />
-          )}
         </div>
         <div className="weekly-container">
           <div className="weekly-calendar-container">
