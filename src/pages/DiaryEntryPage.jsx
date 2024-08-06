@@ -22,6 +22,7 @@ import { set } from "date-fns";
 const DiaryEntryPage = () => {
   const { checkToken, config } = useTokenHandler();
   const [isLoading, setIsLoading] = useState(false);
+  const [diaryDatas, setDiaryDatas] = useState([]);
 
   //감정 이미지 경로
   const emotionImages = {
@@ -95,10 +96,16 @@ const DiaryEntryPage = () => {
   }, [selectEmotion]);
 
   const postDiary = async () => {
-    if (missingDays.length === 0) {
-      alert("이번주 일기를 모두 작성하셨습니다");
+    const date = formatDate(currentDate);
+    const diaryEntry = diaryDatas.find((entry) => entry.diaryAt === date);
+    if (missingDays.length == 0) {
+      alert("이번주 일기를 전부 작성하셨습니다.");
+      return;
+    } else if (diaryEntry) {
+      alert("오늘 일기를 작성하셨습니다.");
       return;
     }
+
     if (!selectEmotion) {
       alert("감정을 선택해주세요.");
       return;
@@ -126,12 +133,11 @@ const DiaryEntryPage = () => {
         setIsLoading(false);
         alert("일기 작성이 완료되었습니다.");
         window.location.reload();
-      } else if (res.status >=300) {
-        setIsLoading(false);
-        alert("감정 분석에 실패했습니다. 다시 작성해주세요.")
       }
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
+      alert("감정 분석에 실패했습니다. 다시 작성해주세요.");
     }
   };
 
@@ -154,8 +160,28 @@ const DiaryEntryPage = () => {
     return `${year}-${month}-${day}`;
   };
 
+  const getDiaryDatas = async () => {
+    try {
+      checkToken();
+      const res = await axios.get(`/api/v1/diary/month`, {
+        params: {
+          year: currentDate.getFullYear(),
+          month: currentDate.getMonth() + 1,
+        },
+        headers: {
+          Authorization: `${localStorage.getItem("accessToken")}`,
+        },
+      });
+      setDiaryDatas(res.data);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     findMissingDays();
+    getDiaryDatas();
   }, []);
 
   useEffect(() => {
