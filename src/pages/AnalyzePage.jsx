@@ -9,51 +9,13 @@ import SurprisedImage from "../images/Surprised.png";
 import BoringImage from "../images/Boring.png";
 import useTokenHandler from "../layout/Header/useTokenHandler";
 import "../styles/AnalyzePage.scss";
-import API from "../BaseUrl";
-import { sr } from "date-fns/locale";
 import axios from "axios";
 
 const AnalyzePage = () => {
   const { checkToken, config } = useTokenHandler();
   // 받아올 일기 정보들
   const [diaryDatas, setDiaryDatas] = useState([]);
-  const [thisweekData, setThisweekData] = useState([
-    //   {
-    //   id: "Happy",
-    //   label: "기쁨",
-    //   src: HappyImage,
-    //   value: 20,
-    //   color: "#FFE75C",
-    // },
-    // {
-    //   id: "Sad",
-    //   label: "슬픔",
-    //   src: SadImage,
-    //   value: 30,
-    //   color: "#3293D7",
-    // },
-    // {
-    //   id: "Angry",
-    //   label: "분노",
-    //   src: AngryImage,
-    //   value: 50,
-    //   color: "#FF6262",
-    // },
-    // {
-    //   id: "Surprised",
-    //   label: "놀람",
-    //   src: SurprisedImage,
-    //   value: 10,
-    //   color: "#FEBB00",
-    // },
-    // {
-    //   id: "Boring",
-    //   label: "중립",
-    //   src: BoringImage,
-    //   value: 5,
-    //   color: "#C6C6C6",
-    // },
-  ]);
+  const [thisweekData, setThisweekData] = useState([]);
 
   // 지난 주 감정 데이터(더미)
   const [lastweekData, setLastweekData] = useState([]);
@@ -61,6 +23,16 @@ const AnalyzePage = () => {
   // 감정 피드백 데이터
   const [feedbackData, setFeedbackData] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  const checkSaturday = useCallback((date) => {
+    if (date.getDay() === 6) {
+      return String(date.getDate()).padStart(2, "0");
+    } else {
+      const sat = date.getDay();
+      const diff = 6 - sat;
+      return String(date.getDate() + diff).padStart(2, "0");
+    }
+  }, []);
 
   const getYearMonthDay_server = useCallback((date) => {
     const today = new Date(date); // 원래 날짜 객체를 복사하여 변경 사항이 원본에 영향을 주지 않도록 함
@@ -84,6 +56,7 @@ const AnalyzePage = () => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   }, []);
 
@@ -92,7 +65,6 @@ const AnalyzePage = () => {
     checkToken();
     try {
       const date = getYearMonthDay_server(currentDate);
-      // console.log(date);
       const res = await axios.get(`/api/v1/weekly-emotion`, {
         headers: {
           Authorization: `${accessToken}`,
@@ -101,7 +73,6 @@ const AnalyzePage = () => {
           endDate: date,
         },
       });
-      // console.log(res);
       setThisweekData([
         {
           id: "Happy",
@@ -196,8 +167,7 @@ const AnalyzePage = () => {
         },
       });
       setDiaryDatas(res.data);
-      console.log(currentDate);
-      // console.log(res.data);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -233,9 +203,13 @@ const AnalyzePage = () => {
             />
           </div>
           <div className="feedback-content">
-            <div className="feedback-title">주간 감정 피드백</div>
+            <div className="feedback-title">
+              <div>AI 주간 감정 피드백</div>
+            </div>
             <Emotion emotionData={thisweekData} type="weekly" />
-            <p>{feedbackData}</p>
+            <div className={`feedback-scroll ${feedbackData.length < 50 ? "oneline" : ""}`}>
+              <div>{feedbackData}</div>
+            </div>
           </div>
         </div>
       </div>

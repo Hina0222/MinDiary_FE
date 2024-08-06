@@ -13,12 +13,14 @@ import SelectSurprisedImage from "../images/Select_Surprised.png";
 import SelectBoringImage from "../images/Select_Boring.png";
 import InputForm from "../components/InputForm";
 import useTokenHandler from "../layout/Header/useTokenHandler";
+import Loading from "../components/Loading";
 import "../styles/DiaryEntryPage.scss";
 
 import axios from "axios";
 
 const DiaryEntryPage = () => {
   const { checkToken, config } = useTokenHandler();
+  const [isLoading, setIsLoading] = useState(false);
 
   //감정 이미지 경로
   const emotionImages = {
@@ -92,6 +94,13 @@ const DiaryEntryPage = () => {
   }, [selectEmotion]);
 
   const postDiary = async () => {
+    if (!missingDays.includes(currentDate)) {
+      alert("이미 작성한 일기가 있습니다.");
+      setTitle("");
+      setContent("");
+      setSelectEmotion("");
+      return;
+    }
     if (!selectEmotion) {
       alert("감정을 선택해주세요.");
       return;
@@ -104,6 +113,7 @@ const DiaryEntryPage = () => {
     }
     try {
       checkToken();
+      setIsLoading(true);
       const res = await axios.post(
         `/api/v1/diary`,
         {
@@ -115,6 +125,7 @@ const DiaryEntryPage = () => {
         config
       );
       if (res.status === 201) {
+        setIsLoading(false);
         alert("일기 작성이 완료되었습니다.");
         window.location.reload();
       }
@@ -147,50 +158,54 @@ const DiaryEntryPage = () => {
   }, []);
 
   useEffect(() => {
-    // if (missingDays.length > 0) {
-    //   const todayFormatted = formatDate(new Date());
-    //   if (!missingDays.includes(todayFormatted)) {
-    //     setCurrentDate(new Date(missingDays[missingDays.length - 1]));
-    //   }
-    // }
+    if (missingDays.length > 1) {
+      const todayFormatted = formatDate(new Date());
+
+      if (!missingDays.includes(todayFormatted)) {
+        setCurrentDate(new Date(missingDays[missingDays.length - 1]));
+      }
+    }
   }, [missingDays]);
 
   return (
-    <div className="main-container" style={{ width: "1063px" }}>
-      <div className="title">
-        <h1>WRITE AN EMOTIONAL DIARY</h1>
-        <button className="submit-button" onClick={() => postDiary()}>
-          일기 작성 완료
-        </button>
-      </div>
-      <div className="top-content">
-        <DateSelect
-          currentDate={currentDate}
-          setCurrentDate={setCurrentDate}
-          includeDates={missingDays}
-        />
-        <div className="emotion">
-          <label>오늘의 감정</label>
-          <Emotion
-            emotionData={emotionData}
-            type="input"
-            setEmotion={setSelectEmotion}
-          />
+    <>
+      {isLoading && <Loading></Loading>}
+      <div className="main-container" style={{ width: "1063px" }}>
+        <div className="title">
+          <h1>WRITE AN EMOTIONAL DIARY</h1>
+          <button className="submit-button" onClick={() => postDiary()}>
+            일기 작성 완료
+          </button>
         </div>
+        <div className="top-content">
+          <DateSelect
+            currentDate={currentDate}
+            setCurrentDate={setCurrentDate}
+            includeDates={missingDays}
+          />
+          <div className="emotion">
+            <label>오늘의 감정</label>
+            <Emotion
+              emotionData={emotionData}
+              type="input"
+              setEmotion={setSelectEmotion}
+            />
+          </div>
+        </div>
+        <InputForm
+          label="제목"
+          placeholder="제목을 입력해주세요."
+          value={title}
+          setValue={setTitle}
+        />
+        <InputForm
+          label="내용"
+          placeholder="내용을 입력해주세요. 일기 내용이 짧으면 감정 분석이 어려울 수 있어요!"
+          value={content}
+          setValue={setContent}
+        />
       </div>
-      <InputForm
-        label="제목"
-        placeholder="제목을 입력해주세요."
-        value={title}
-        setValue={setTitle}
-      />
-      <InputForm
-        label="내용"
-        placeholder="내용을 입력해주세요. 일기 내용이 짧으면 감정 분석이 어려울 수 있어요!"
-        value={content}
-        setValue={setContent}
-      />
-    </div>
+    </>
   );
 };
 

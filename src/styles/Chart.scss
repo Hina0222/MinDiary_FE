@@ -1,9 +1,10 @@
-$title-color: #2353B5;
+$title-color: #2353b5;
 
 .chart-container {
   width: 646px;
   height: 100%;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   gap: 20px;
