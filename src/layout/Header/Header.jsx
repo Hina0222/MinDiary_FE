@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "./header.css";
 import logoImage from "./logo.png";
@@ -11,6 +11,7 @@ import axios from "axios";
 Modal.setAppElement("#root");
 
 const Header = () => {
+  const navigate = useNavigate();
   const { checkToken } = useTokenHandler();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -40,11 +41,13 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get("/api/v1/account/logout", {
+      const res = await axios.get("/api/v1/account/logout", {
         headers: {
           Authorization: `${localStorage.getItem("accessToken")}`,
         },
-      });
+      }
+    );
+    navigate("/");
     } catch (error) {
       console.error("Logout failed", error);
     }

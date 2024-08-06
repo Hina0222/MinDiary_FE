@@ -17,6 +17,7 @@ import Loading from "../components/Loading";
 import "../styles/DiaryEntryPage.scss";
 
 import axios from "axios";
+import { set } from "date-fns";
 
 const DiaryEntryPage = () => {
   const { checkToken, config } = useTokenHandler();
@@ -94,11 +95,8 @@ const DiaryEntryPage = () => {
   }, [selectEmotion]);
 
   const postDiary = async () => {
-    if (!missingDays.includes(currentDate)) {
-      alert("이미 작성한 일기가 있습니다.");
-      setTitle("");
-      setContent("");
-      setSelectEmotion("");
+    if (missingDays.length === 0) {
+      alert("이번주 일기를 모두 작성하셨습니다");
       return;
     }
     if (!selectEmotion) {
@@ -128,6 +126,9 @@ const DiaryEntryPage = () => {
         setIsLoading(false);
         alert("일기 작성이 완료되었습니다.");
         window.location.reload();
+      } else if (res.status >=300) {
+        setIsLoading(false);
+        alert("감정 분석에 실패했습니다. 다시 작성해주세요.")
       }
     } catch (err) {
       console.log(err);
