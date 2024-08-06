@@ -33,11 +33,19 @@ const DiaryEntryPage = () => {
     중립: { normal: BoringImage, selected: SelectBoringImage },
   };
 
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1, 두 자리 수로 만듦
+    const day = String(date.getDate()).padStart(2, "0"); // 두 자리 수로 만듦
+    return `${year}-${month}-${day}`;
+  };
+
   // 일기 작성 가능한 날짜
   const [missingDays, setMissingDays] = useState([]);
 
   // 선택한 날짜
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [formattedDate, setFormattedDate] = useState();
 
   // 감정 데이터(지우면 안됨)
   const [emotionData, setEmotionData] = useState([
@@ -96,8 +104,9 @@ const DiaryEntryPage = () => {
   }, [selectEmotion]);
 
   const postDiary = async () => {
-    const date = formatDate(currentDate);
-    const diaryEntry = diaryDatas.find((entry) => entry.diaryAt === date);
+    const diaryEntry = diaryDatas.find(
+      (entry) => entry.diaryAt === formattedDate
+    );
     if (missingDays.length == 0) {
       alert("이번주 일기를 전부 작성하셨습니다.");
       return;
@@ -152,14 +161,6 @@ const DiaryEntryPage = () => {
       console.log(err);
     }
   };
-
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1, 두 자리 수로 만듦
-    const day = String(date.getDate()).padStart(2, "0"); // 두 자리 수로 만듦
-    return `${year}-${month}-${day}`;
-  };
-
   const getDiaryDatas = async () => {
     try {
       checkToken();
@@ -183,6 +184,10 @@ const DiaryEntryPage = () => {
     findMissingDays();
     getDiaryDatas();
   }, []);
+
+  useEffect(() => {
+    setFormattedDate(currentDate);
+  }, [currentDate]);
 
   useEffect(() => {
     if (missingDays.length > 1) {
