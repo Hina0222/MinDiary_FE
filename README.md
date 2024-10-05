@@ -55,7 +55,13 @@
     <img src="https://github.com/Time-Makes-Society/.github/assets/100831607/9efb8614-c100-4404-bcd9-92d73859ef55"/>
     <img src="https://github.com/Time-Makes-Society/.github/assets/100831607/5d892c4e-c226-48d1-9fb4-8db1606a90a2"/>
     <img src="https://github.com/Time-Makes-Society/.github/assets/100831607/1390183d-e948-4b34-9cca-c75264bfe73e"/>
-    <img src="https://github.com/Time-Makes-Society/.github/assets/100831607/db6bcd06-5b01-기
+  </div>
+  </div>
+</details>
+<details>
+  <summary><b>맡은 파트</b></summary>
+  <div markdown="1">
+  달력 페이지, 작성한 감정 일기
   </div>
 </details>
 
