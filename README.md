@@ -38,23 +38,25 @@
 
 <br>
 
-## 🦾 주요 기술
+## :star: 주요 기술
 <br>
 
 <img src="https://github.com/user-attachments/assets/fb8307f0-a240-421a-a78a-e594930c2d22"/>
 
 <br>
 
-##  UI
+## :yellow_heart: UI
 <br>
 
 <details>
   <summary><b>와이어프레임&디자인</b></summary>
   <div markdown="1">
   <div align="center">
-    <img src="https://github.com/Time-Makes-Society/.github/assets/100831607/9efb8614-c100-4404-bcd9-92d73859ef55"/>
-    <img src="https://github.com/Time-Makes-Society/.github/assets/100831607/5d892c4e-c226-48d1-9fb4-8db1606a90a2"/>
-    <img src="https://github.com/Time-Makes-Society/.github/assets/100831607/1390183d-e948-4b34-9cca-c75264bfe73e"/>
+    <img src="https://github.com/user-attachments/assets/50085be1-25f5-4ed7-be87-f2137019339b"/>
+    <img src="https://github.com/user-attachments/assets/c6d0f876-6381-4d33-a268-d067aa7e9aff"/>
+    <img src="https://github.com/user-attachments/assets/80ba20cb-faa5-4a90-bc9b-10daa3ca98ea"/>
+    <img src="https://github.com/user-attachments/assets/a76144ae-e1dc-4861-9762-36a4d8694879"/>
+    <img src="https://github.com/user-attachments/assets/0c8e3bfa-46a5-412e-be57-2e28b2397431"/>
   </div>
   </div>
 </details>
@@ -67,7 +69,7 @@
 
 <br>
 
-##  팀원
+## :smile: 팀원
 <table>
   <tr> 
     <th align='center'><strong>FRONT-END</strong></th> 
